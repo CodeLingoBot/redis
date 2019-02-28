@@ -51,6 +51,11 @@ instructed to require a password before allowing clients to execute commands.
 This is done using the requirepass directive in the configuration file.
 
 http://redis.io/commands/auth
+*/Request for authentication in a password-protected Redis server. Redis can be
+instructed to require a password before allowing clients to execute commands.
+This is done using the requirepass directive in the configuration file.
+
+http://redis.io/commands/auth
 */
 func (c *Client) Auth(password string) (string, error) {
 	var ret string
@@ -64,6 +69,10 @@ func (c *Client) Auth(password string) (string, error) {
 
 /*
 Instruct Redis to start an Append Only File rewrite process. The rewrite will
+create a small optimized version of the current Append Only File.
+
+http://redis.io/commands/bgwriteaof
+*/Instruct Redis to start an Append Only File rewrite process. The rewrite will
 create a small optimized version of the current Append Only File.
 
 http://redis.io/commands/bgwriteaof
@@ -85,6 +94,13 @@ A client my be able to check if the operation succeeded using the LASTSAVE
 command.
 
 http://redis.io/commands/bgsave
+*/Save the DB in background. The OK code is immediately returned. Redis forks, the
+parent continues to serve the clients, the child saves the DB on disk then exits.
+
+A client my be able to check if the operation succeeded using the LASTSAVE
+command.
+
+http://redis.io/commands/bgsave
 */
 func (c *Client) BgSave() (string, error) {
 	var ret string
@@ -97,6 +113,9 @@ func (c *Client) BgSave() (string, error) {
 
 /*
 Count the number of set bits (population counting) in a string.
+
+http://redis.io/commands/bitcount
+*/Count the number of set bits (population counting) in a string.
 
 http://redis.io/commands/bitcount
 */
@@ -114,6 +133,10 @@ func (c *Client) BitCount(key string, params ...int64) (int64, error) {
 
 /*
 Perform a bitwise operation between multiple keys (containing string values)
+and store the result in the destination key.
+
+http://redis.io/commands/bitop
+*/Perform a bitwise operation between multiple keys (containing string values)
 and store the result in the destination key.
 
 http://redis.io/commands/bitop
@@ -207,6 +230,9 @@ func (c *Client) BRPopLPush(source string, destination string, timeout int64) (s
 The CLIENT KILL command closes a given client connection identified by ip:port.
 
 http://redis.io/commands/client-kill
+*/The CLIENT KILL command closes a given client connection identified by ip:port.
+
+http://redis.io/commands/client-kill
 */
 func (c *Client) ClientKill(ip string, port uint) (string, error) {
 	var ret string
@@ -221,6 +247,10 @@ func (c *Client) ClientKill(ip string, port uint) (string, error) {
 
 /*
 The CLIENT LIST command returns information and statistics about the client
+connections server in a mostly human readable format.
+
+http://redis.io/commands/client-list
+*/The CLIENT LIST command returns information and statistics about the client
 connections server in a mostly human readable format.
 
 http://redis.io/commands/client-list
@@ -241,6 +271,11 @@ SETNAME. Since every new connection starts without an associated name, if no
 name was assigned a null bulk reply is returned.
 
 http://redis.io/commands/client-getname
+*/The CLIENT GETNAME returns the name of the current connection as set by CLIENT
+SETNAME. Since every new connection starts without an associated name, if no
+name was assigned a null bulk reply is returned.
+
+http://redis.io/commands/client-getname
 */
 func (c *Client) ClientGetName() (string, error) {
 	var ret string
@@ -254,6 +289,9 @@ func (c *Client) ClientGetName() (string, error) {
 
 /*
 The CLIENT SETNAME command assigns a name to the current connection.
+
+http://redis.io/commands/client-setname
+*/The CLIENT SETNAME command assigns a name to the current connection.
 
 http://redis.io/commands/client-setname
 */
@@ -270,6 +308,11 @@ func (c *Client) ClientSetName(connectionName string) (string, error) {
 
 /*
 The CONFIG GET command is used to read the configuration parameters of a running
+Redis server. Not all the configuration parameters are supported in Redis 2.4,
+while Redis 2.6 can read the whole configuration of a server using this command.
+
+http://redis.io/commands/config-get
+*/The CONFIG GET command is used to read the configuration parameters of a running
 Redis server. Not all the configuration parameters are supported in Redis 2.4,
 while Redis 2.6 can read the whole configuration of a server using this command.
 
@@ -292,6 +335,11 @@ without the need to restart Redis. You can change both trivial parameters or
 switch from one to another persistence option using this command.
 
 http://redis.io/commands/config-set
+*/The CONFIG SET command is used in order to reconfigure the server at run time
+without the need to restart Redis. You can change both trivial parameters or
+switch from one to another persistence option using this command.
+
+http://redis.io/commands/config-set
 */
 func (c *Client) ConfigSet(parameter string, value interface{}) (string, error) {
 	var ret string
@@ -309,6 +357,9 @@ func (c *Client) ConfigSet(parameter string, value interface{}) (string, error) 
 Resets the statistics reported by Redis using the INFO command.
 
 http://redis.io/commands/config-resetstat
+*/Resets the statistics reported by Redis using the INFO command.
+
+http://redis.io/commands/config-resetstat
 */
 func (c *Client) ConfigResetStat() (string, error) {
 	var ret string
@@ -322,6 +373,9 @@ func (c *Client) ConfigResetStat() (string, error) {
 
 /*
 Return the number of keys in the currently-selected database.
+
+http://redis.io/commands/dbsize
+*/DbSize returns the number of keys in the currently-selected database.
 
 http://redis.io/commands/dbsize
 */
@@ -339,6 +393,10 @@ DEBUG OBJECT is a debugging command that should not be used by clients. Check
 the OBJECT command instead.
 
 http://redis.io/commands/debug-object
+*/DEBUG OBJECT is a debugging command that should not be used by clients. Check
+the OBJECT command instead.
+
+http://redis.io/commands/debug-object
 */
 func (c *Client) DebugObject(key string) (string, error) {
 	var ret string
@@ -353,6 +411,10 @@ func (c *Client) DebugObject(key string) (string, error) {
 
 /*
 DEBUG SEGFAULT performs an invalid memory access that crashes Redis. It is used
+to simulate bugs during the development.
+
+http://redis.io/commands/debug-segfault
+*/DEBUG SEGFAULT performs an invalid memory access that crashes Redis. It is used
 to simulate bugs during the development.
 
 http://redis.io/commands/debug-segfault
@@ -374,6 +436,12 @@ value of the wrong type or contains a string that can not be represented as
 integer. This operation is limited to 64 bit signed integers.
 
 http://redis.io/commands/decr
+*/Decrements the number stored at key by one. If the key does not exist, it is set
+to 0 before performing the operation. An error is returned if the key contains a
+value of the wrong type or contains a string that can not be represented as
+integer. This operation is limited to 64 bit signed integers.
+
+http://redis.io/commands/decr
 */
 func (c *Client) Decr(key string) (int64, error) {
 	var ret int64
@@ -387,6 +455,12 @@ func (c *Client) Decr(key string) (int64, error) {
 
 /*
 Decrements the number stored at key by decrement. If the key does not exist, it
+is set to 0 before performing the operation. An error is returned if the key
+contains a value of the wrong type or contains a string that can not be
+represented as integer. This operation is limited to 64 bit signed integers.
+
+http://redis.io/commands/decrby
+*/Decrements the number stored at key by decrement. If the key does not exist, it
 is set to 0 before performing the operation. An error is returned if the key
 contains a value of the wrong type or contains a string that can not be
 represented as integer. This operation is limited to 64 bit signed integers.
@@ -426,6 +500,10 @@ Flushes all previously queued commands in a transaction and restores the
 connection state to normal.
 
 http://redis.io/commands/discard
+*/Flushes all previously queued commands in a transaction and restores the
+connection state to normal.
+
+http://redis.io/commands/discard
 */
 func (c *Client) Discard() (string, error) {
 	var ret string
@@ -438,6 +516,11 @@ func (c *Client) Discard() (string, error) {
 
 /*
 Serialize the value stored at key in a Redis-specific format and return it to
+the user. The returned value can be synthesized back into a Redis key using the
+RESTORE command.
+
+http://redis.io/commands/dump
+*/Serialize the value stored at key in a Redis-specific format and return it to
 the user. The returned value can be synthesized back into a Redis key using the
 RESTORE command.
 
@@ -457,6 +540,9 @@ func (c *Client) Dump(key string) (string, error) {
 Returns message.
 
 http://redis.io/commands/echo
+*/Echo returns message.
+
+http://redis.io/commands/echo
 */
 func (c *Client) Echo(message interface{}) (string, error) {
 	var ret string
@@ -470,6 +556,10 @@ func (c *Client) Echo(message interface{}) (string, error) {
 
 /*
 Executes all previously queued commands in a transaction and restores the
+connection state to normal.
+
+http://redis.io/commands/exec
+*/Exec executes all previously queued commands in a transaction and restores the
 connection state to normal.
 
 http://redis.io/commands/exec
@@ -487,6 +577,9 @@ func (c *Client) Exec() ([]interface{}, error) {
 Returns if key exists.
 
 http://redis.io/commands/exists
+*/Exists returns if key exists.
+
+http://redis.io/commands/exists
 */
 func (c *Client) Exists(key string) (bool, error) {
 	var ret bool
@@ -500,6 +593,11 @@ func (c *Client) Exists(key string) (bool, error) {
 
 /*
 Set a timeout on key. After the timeout has expired, the key will automatically
+be deleted. A key with an associated timeout is often said to be volatile in
+Redis terminology.
+
+http://redis.io/commands/expire
+*/Set a timeout on key. After the timeout has expired, the key will automatically
 be deleted. A key with an associated timeout is often said to be volatile in
 Redis terminology.
 
@@ -539,6 +637,10 @@ Delete all the keys of all the existing databases, not just the currently
 selected one. This command never fails.
 
 http://redis.io/commands/flushall
+*/Delete all the keys of all the existing databases, not just the currently
+selected one. This command never fails.
+
+http://redis.io/commands/flushall
 */
 func (c *Client) FlushAll() (string, error) {
 	var ret string
@@ -551,6 +653,9 @@ func (c *Client) FlushAll() (string, error) {
 
 /*
 Delete all the keys of the currently selected DB. This command never fails.
+
+http://redis.io/commands/flushdb
+*/Delete all the keys of the currently selected DB. This command never fails.
 
 http://redis.io/commands/flushdb
 */
@@ -583,6 +688,9 @@ func (c *Client) Get(key string) (string, error) {
 Returns the bit value at offset in the string value stored at key.
 
 http://redis.io/commands/getbit
+*/GetBit returns the bit value at offset in the string value stored at key.
+
+http://redis.io/commands/getbit
 */
 func (c *Client) GetBit(key string, offset int64) (int64, error) {
 	var ret int64
@@ -597,6 +705,12 @@ func (c *Client) GetBit(key string, offset int64) (int64, error) {
 
 /*
 Returns the substring of the string value stored at key, determined by the
+offsets start and end (both are inclusive). Negative offsets can be used in
+order to provide an offset starting from the end of the string. So -1 means
+the last character, -2 the penultimate and so forth.
+
+http://redis.io/commands/getrange
+*/GetRange returns the substring of the string value stored at key, determined by the
 offsets start and end (both are inclusive). Negative offsets can be used in
 order to provide an offset starting from the end of the string. So -1 means
 the last character, -2 the penultimate and so forth.
@@ -619,6 +733,10 @@ Atomically sets key to value and returns the old value stored at key. Returns an
 error when key exists but does not hold a string value.
 
 http://redis.io/commands/getset
+*/Atomically sets key to value and returns the old value stored at key. Returns an
+error when key exists but does not hold a string value.
+
+http://redis.io/commands/getset
 */
 func (c *Client) GetSet(key string, value interface{}) (string, error) {
 	var ret string
@@ -633,6 +751,11 @@ func (c *Client) GetSet(key string, value interface{}) (string, error) {
 
 /*
 Removes the specified fields from the hash stored at key. Specified fields that
+do not exist within this hash are ignored. If key does not exist, it is treated
+as an empty hash and this command returns 0.
+
+http://redis.io/commands/hdel
+*/HDel removes the specified fields from the hash stored at key. Specified fields that
 do not exist within this hash are ignored. If key does not exist, it is treated
 as an empty hash and this command returns 0.
 
@@ -658,6 +781,9 @@ func (c *Client) HDel(key string, fields ...string) (int64, error) {
 Returns if field is an existing field in the hash stored at key.
 
 http://redis.io/commands/hexists
+*/HExists returns if field is an existing field in the hash stored at key.
+
+http://redis.io/commands/hexists
 */
 func (c *Client) HExists(key string, field string) (bool, error) {
 	var ret bool
@@ -674,6 +800,9 @@ func (c *Client) HExists(key string, field string) (bool, error) {
 
 /*
 Returns the value associated with field in the hash stored at key.
+
+http://redis.io/commands/hget
+*/HGet returns the value associated with field in the hash stored at key.
 
 http://redis.io/commands/hget
 */
@@ -696,6 +825,11 @@ every field name is followed by its value, so the length of the reply is twice
 the size of the hash.
 
 http://redis.io/commands/hgetall
+*/HGetAll returns all fields and values of the hash stored at key. In the returned value,
+every field name is followed by its value, so the length of the reply is twice
+the size of the hash.
+
+http://redis.io/commands/hgetall
 */
 func (c *Client) HGetAll(key string) ([]string, error) {
 	var ret []string
@@ -711,6 +845,11 @@ func (c *Client) HGetAll(key string) ([]string, error) {
 
 /*
 Increments the number stored at field in the hash stored at key by increment. If
+key does not exist, a new key holding a hash is created. If field does not exist
+the value is set to 0 before the operation is performed.
+
+http://redis.io/commands/hincrby
+*/Increments the number stored at field in the hash stored at key by increment. If
 key does not exist, a new key holding a hash is created. If field does not exist
 the value is set to 0 before the operation is performed.
 
@@ -736,6 +875,11 @@ floating point number, by the specified increment. If the field does not exist,
 it is set to 0 before performing the operation.
 
 http://redis.io/commands/hincrbyfloat
+*/Increment the specified field of an hash stored at key, and representing a
+floating point number, by the specified increment. If the field does not exist,
+it is set to 0 before performing the operation.
+
+http://redis.io/commands/hincrbyfloat
 */
 func (c *Client) HIncrByFloat(key string, field string, increment float64) (string, error) {
 	var ret string
@@ -753,6 +897,9 @@ func (c *Client) HIncrByFloat(key string, field string, increment float64) (stri
 
 /*
 Returns all field names in the hash stored at key.
+
+http://redis.io/commands/hkeys
+*/HKeys returns all field names in the hash stored at key.
 
 http://redis.io/commands/hkeys
 */
@@ -773,6 +920,9 @@ func (c *Client) HKeys(key string) ([]string, error) {
 Returns the number of fields contained in the hash stored at key.
 
 http://redis.io/commands/hlen
+*/HLen returns the number of fields contained in the hash stored at key.
+
+http://redis.io/commands/hlen
 */
 func (c *Client) HLen(key string) (int64, error) {
 	var ret int64
@@ -788,6 +938,9 @@ func (c *Client) HLen(key string) (int64, error) {
 
 /*
 Returns the values associated with the specified fields in the hash stored at key.
+
+http://redis.io/commands/hmget
+*/HMGet returns the values associated with the specified fields in the hash stored at key.
 
 http://redis.io/commands/hmget
 */
@@ -809,6 +962,11 @@ func (c *Client) HMGet(key string, fields ...string) ([]string, error) {
 
 /*
 Sets the specified fields to their respective values in the hash stored at key.
+This command overwrites any existing fields in the hash. If key does not exist,
+a new key holding a hash is created.
+
+http://redis.io/commands/hmset
+*/Sets the specified fields to their respective values in the hash stored at key.
 This command overwrites any existing fields in the hash. If key does not exist,
 a new key holding a hash is created.
 
@@ -840,6 +998,11 @@ holding a hash is created. If field already exists in the hash, it is
 overwritten.
 
 http://redis.io/commands/hset
+*/Sets field in the hash stored at key to value. If key does not exist, a new key
+holding a hash is created. If field already exists in the hash, it is
+overwritten.
+
+http://redis.io/commands/hset
 */
 func (c *Client) HSet(key string, field string, value interface{}) (bool, error) {
 	var ret bool
@@ -857,6 +1020,11 @@ func (c *Client) HSet(key string, field string, value interface{}) (bool, error)
 
 /*
 Sets field in the hash stored at key to value, only if field does not yet exist.
+If key does not exist, a new key holding a hash is created. If field already
+exists, this operation has no effect.
+
+http://redis.io/commands/hsetnx
+*/Sets field in the hash stored at key to value, only if field does not yet exist.
 If key does not exist, a new key holding a hash is created. If field already
 exists, this operation has no effect.
 
@@ -880,6 +1048,9 @@ func (c *Client) HSetNX(key string, field string, value interface{}) (bool, erro
 Returns all values in the hash stored at key.
 
 http://redis.io/commands/hvals
+*/HVals returns all values in the hash stored at key.
+
+http://redis.io/commands/hvals
 */
 func (c *Client) HVals(key string) ([]string, error) {
 	var ret []string
@@ -895,6 +1066,12 @@ func (c *Client) HVals(key string) ([]string, error) {
 
 /*
 Increments the number stored at key by one. If the key does not exist, it is set
+to 0 before performing the operation. An error is returned if the key contains a
+value of the wrong type or contains a string that can not be represented as
+integer. This operation is limited to 64 bit signed integers.
+
+http://redis.io/commands/incr
+*/Increments the number stored at key by one. If the key does not exist, it is set
 to 0 before performing the operation. An error is returned if the key contains a
 value of the wrong type or contains a string that can not be represented as
 integer. This operation is limited to 64 bit signed integers.
@@ -918,6 +1095,12 @@ contains a value of the wrong type or contains a string that can not be
 represented as integer. This operation is limited to 64 bit signed integers.
 
 http://redis.io/commands/incrby
+*/Increments the number stored at key by increment. If the key does not exist, it
+is set to 0 before performing the operation. An error is returned if the key
+contains a value of the wrong type or contains a string that can not be
+represented as integer. This operation is limited to 64 bit signed integers.
+
+http://redis.io/commands/incrby
 */
 func (c *Client) IncrBy(key string, increment int64) (int64, error) {
 	var ret int64
@@ -932,6 +1115,11 @@ func (c *Client) IncrBy(key string, increment int64) (int64, error) {
 
 /*
 Increment the string representing a floating point number stored at key by the
+specified increment. If the key does not exist, it is set to 0 before
+performing the operation.
+
+http://redis.io/commands/incrbyfloat
+*/Increment the string representing a floating point number stored at key by the
 specified increment. If the key does not exist, it is set to 0 before
 performing the operation.
 
@@ -953,6 +1141,10 @@ The INFO command returns information and statistics about the server in a format
 that is simple to parse by computers and easy to read by humans.
 
 http://redis.io/commands/info
+*/The INFO command returns information and statistics about the server in a format
+that is simple to parse by computers and easy to read by humans.
+
+http://redis.io/commands/info
 */
 func (c *Client) Info(section string) (ret string, err error) {
 	err = c.command(
@@ -965,6 +1157,9 @@ func (c *Client) Info(section string) (ret string, err error) {
 
 /*
 Returns all keys matching pattern.
+
+http://redis.io/commands/keys
+*/Keys returns all keys matching pattern.
 
 http://redis.io/commands/keys
 */
@@ -980,6 +1175,9 @@ func (c *Client) Keys(pattern string) ([]string, error) {
 
 /*
 Return the UNIX TIME of the last DB save executed with success.
+
+http://redis.io/commands/lastsave
+*/LastSave returns the UNIX TIME of the last DB save executed with success.
 
 http://redis.io/commands/lastsave
 */
@@ -999,6 +1197,12 @@ Negative indices can be used to designate elements starting at the tail of the
 list. Here, -1 means the last element, -2 means the penultimate and so forth.
 
 http://redis.io/commands/lindex
+*/LIndex returns the element at index index in the list stored at key. The index is
+zero-based, so 0 means the first element, 1 the second element and so on.
+Negative indices can be used to designate elements starting at the tail of the
+list. Here, -1 means the last element, -2 means the penultimate and so forth.
+
+http://redis.io/commands/lindex
 */
 func (c *Client) LIndex(key string, index int64) (string, error) {
 	var ret string
@@ -1013,6 +1217,10 @@ func (c *Client) LIndex(key string, index int64) (string, error) {
 
 /*
 Inserts value in the list stored at key either before or after the reference
+value pivot.
+
+http://redis.io/commands/linsert
+*/Inserts value in the list stored at key either before or after the reference
 value pivot.
 
 http://redis.io/commands/linsert
@@ -1044,6 +1252,11 @@ interpreted as an empty list and 0 is returned. An error is returned when the
 value stored at key is not a list.
 
 http://redis.io/commands/llen
+*/LLen returns the length of the list stored at key. If key does not exist, it is
+interpreted as an empty list and 0 is returned. An error is returned when the
+value stored at key is not a list.
+
+http://redis.io/commands/llen
 */
 func (c *Client) LLen(key string) (int64, error) {
 	var ret int64
@@ -1061,6 +1274,9 @@ func (c *Client) LLen(key string) (int64, error) {
 Removes and returns the first element of the list stored at key.
 
 http://redis.io/commands/lpop
+*/LPop removes and returns the first element of the list stored at key.
+
+http://redis.io/commands/lpop
 */
 func (c *Client) LPop(key string) (string, error) {
 	var ret string
@@ -1076,6 +1292,11 @@ func (c *Client) LPop(key string) (string, error) {
 
 /*
 Insert all the specified values at the head of the list stored at key. If key
+does not exist, it is created as empty list before performing the push
+operations. When key holds a value that is not a list, an error is returned.
+
+http://redis.io/commands/lpush
+*/Insert all the specified values at the head of the list stored at key. If key
 does not exist, it is created as empty list before performing the push
 operations. When key holds a value that is not a list, an error is returned.
 
@@ -1103,6 +1324,11 @@ and holds a list. In contrary to LPUSH, no operation will be performed when key
 does not yet exist.
 
 http://redis.io/commands/lpushx
+*/Inserts value at the head of the list stored at key, only if key already exists
+and holds a list. In contrary to LPUSH, no operation will be performed when key
+does not yet exist.
+
+http://redis.io/commands/lpushx
 */
 func (c *Client) LPushX(key string, value interface{}) (int64, error) {
 	var ret int64
@@ -1119,6 +1345,11 @@ func (c *Client) LPushX(key string, value interface{}) (int64, error) {
 
 /*
 Returns the specified elements of the list stored at key. The offsets start and
+stop are zero-based indexes, with 0 being the first element of the list (the
+head of the list), 1 being the next element and so on.
+
+http://redis.io/commands/lrange
+*/LRange returns the specified elements of the list stored at key. The offsets start and
 stop are zero-based indexes, with 0 being the first element of the list (the
 head of the list), 1 being the next element and so on.
 
@@ -1144,6 +1375,11 @@ stored at key. The count argument influences the operation in the following
 ways:
 
 http://redis.io/commands/lrem
+*/LRem removes the first count occurrences of elements equal to value from the list
+stored at key. The count argument influences the operation in the following
+ways:
+
+http://redis.io/commands/lrem
 */
 func (c *Client) LRem(key string, count int64, value interface{}) (int64, error) {
 	var ret int64
@@ -1161,6 +1397,10 @@ func (c *Client) LRem(key string, count int64, value interface{}) (int64, error)
 
 /*
 Sets the list element at index to value. For more information on the index
+argument, see LINDEX.
+
+http://redis.io/commands/lset
+*/Sets the list element at index to value. For more information on the index
 argument, see LINDEX.
 
 http://redis.io/commands/lset
@@ -1185,6 +1425,11 @@ elements specified. Both start and stop are zero-based indexes, where 0 is the
 first element of the list (the head), 1 the next element and so on.
 
 http://redis.io/commands/ltrim
+*/Trim an existing list so that it will contain only the specified range of
+elements specified. Both start and stop are zero-based indexes, where 0 is the
+first element of the list (the head), 1 the next element and so on.
+
+http://redis.io/commands/ltrim
 */
 func (c *Client) LTrim(key string, start int64, stop int64) (string, error) {
 	var ret string
@@ -1202,6 +1447,10 @@ func (c *Client) LTrim(key string, start int64, stop int64) (string, error) {
 
 /*
 Returns the values of all specified keys. For every key that does not hold a
+string value or does not exist, the special value nil is returned. Because of
+this, the operation never fails.
+
+*/MGet returns the values of all specified keys. For every key that does not hold a
 string value or does not exist, the special value nil is returned. Because of
 this, the operation never fails.
 
@@ -1223,6 +1472,11 @@ func (c *Client) MGet(keys ...string) ([]string, error) {
 
 /*
 Atomically transfer a key from a source Redis instance to a destination Redis
+instance. On success the key is deleted from the original instance and is
+guaranteed to exist in the target instance.
+
+http://redis.io/commands/migrate
+*/Atomically transfer a key from a source Redis instance to a destination Redis
 instance. On success the key is deleted from the original instance and is
 guaranteed to exist in the target instance.
 
@@ -1271,6 +1525,11 @@ with new values, just as regular SET. See MSETNX if you don't want to overwrite
 existing values.
 
 http://redis.io/commands/mset
+*/Sets the given keys to their respective values. MSET replaces existing values
+with new values, just as regular SET. See MSETNX if you don't want to overwrite
+existing values.
+
+http://redis.io/commands/mset
 */
 func (c *Client) MSet(values ...interface{}) (string, error) {
 	var ret string
@@ -1293,6 +1552,10 @@ func (c *Client) MSet(values ...interface{}) (string, error) {
 
 /*
 Sets the given keys to their respective values. MSETNX will not perform any
+operation at all even if just a single key already exists.
+
+http://redis.io/commands/msetnx
+*/Sets the given keys to their respective values. MSETNX will not perform any
 operation at all even if just a single key already exists.
 
 http://redis.io/commands/msetnx
@@ -1321,6 +1584,10 @@ Marks the start of a transaction block. Subsequent commands will be queued for
 atomic execution using EXEC.
 
 http://redis.io/commands/multi
+*/Marks the start of a transaction block. Subsequent commands will be queued for
+atomic execution using EXEC.
+
+http://redis.io/commands/multi
 */
 func (c *Client) Multi() (string, error) {
 	var ret string
@@ -1335,6 +1602,13 @@ func (c *Client) Multi() (string, error) {
 
 /*
 The OBJECT command allows to inspect the internals of Redis Objects associated
+with keys. It is useful for debugging or to understand if your keys are using
+the specially encoded data types to save space. Your application may also use
+the information reported by the OBJECT command to implement application level
+key eviction policies when using Redis as a Cache.
+
+http://redis.io/commands/object
+*/The OBJECT command allows to inspect the internals of Redis Objects associated
 with keys. It is useful for debugging or to understand if your keys are using
 the specially encoded data types to save space. Your application may also use
 the information reported by the OBJECT command to implement application level
@@ -1364,6 +1638,11 @@ expire set) to persistent (a key that will never expire as no timeout is
 associated).
 
 http://redis.io/commands/persist
+*/Persist removes the existing timeout on key, turning the key from volatile (a key with an
+expire set) to persistent (a key that will never expire as no timeout is
+associated).
+
+http://redis.io/commands/persist
 */
 func (c *Client) Persist(key string) (bool, error) {
 	var ret bool
@@ -1379,6 +1658,10 @@ func (c *Client) Persist(key string) (bool, error) {
 
 /*
 This command works exactly like EXPIRE but the time to live of the key is
+specified in milliseconds instead of seconds.
+
+http://redis.io/commands/pexpire
+*/This command works exactly like EXPIRE but the time to live of the key is
 specified in milliseconds instead of seconds.
 
 http://redis.io/commands/pexpire
@@ -1449,6 +1732,9 @@ func (c *Client) PSetEx(key string, milliseconds int64, value interface{}) (ret 
 Subscribes the client to the given patterns.
 
 http://redis.io/commands/psubscribe
+*/Subscribes the client to the given patterns.
+
+http://redis.io/commands/psubscribe
 */
 func (c *Client) PSubscribe(cn chan []string, channel ...string) error {
 	args := make([][]byte, len(channel)+1)
@@ -1465,6 +1751,11 @@ func (c *Client) PSubscribe(cn chan []string, channel ...string) error {
 
 /*
 The PUBSUB command is an introspection command that allows to inspect the state
+of the Pub/Sub subsystem. It is composed of subcommands that are documented
+separately.
+
+http://redis.io/commands/pubsub
+*/The PUBSUB command is an introspection command that allows to inspect the state
 of the Pub/Sub subsystem. It is composed of subcommands that are documented
 separately.
 
@@ -1492,6 +1783,11 @@ expire set, with the sole difference that TTL returns the amount of remaining
 time in seconds while PTTL returns it in milliseconds.
 
 http://redis.io/commands/pttl
+*/Like TTL this command returns the remaining time to live of a key that has an
+expire set, with the sole difference that TTL returns the amount of remaining
+time in seconds while PTTL returns it in milliseconds.
+
+http://redis.io/commands/pttl
 */
 func (c *Client) PTTL(key string) (int64, error) {
 	var ret int64
@@ -1507,6 +1803,9 @@ func (c *Client) PTTL(key string) (int64, error) {
 
 /*
 Posts a message to the given channel.
+
+http://redis.io/commands/publish
+*/Posts a message to the given channel.
 
 http://redis.io/commands/publish
 */
@@ -1528,6 +1827,10 @@ Unsubscribes the client from the given patterns, or from all of them if none is
 given.
 
 http://redis.io/commands/punsubscribe
+*/Unsubscribes the client from the given patterns, or from all of them if none is
+given.
+
+http://redis.io/commands/punsubscribe
 */
 func (c *Client) PUnsubscribe(pattern ...string) error {
 	args := make([][]byte, len(pattern)+1)
@@ -1544,6 +1847,10 @@ func (c *Client) PUnsubscribe(pattern ...string) error {
 
 /*
 Ask the server to close the connection. The connection is closed as soon as all
+pending replies have been written to the client.
+
+http://redis.io/commands/quit
+*/Ask the server to close the connection. The connection is closed as soon as all
 pending replies have been written to the client.
 
 http://redis.io/commands/quit
@@ -1568,6 +1875,9 @@ func (c *Client) Quit() (s string, err error) {
 Return a random key from the currently selected database.
 
 http://redis.io/commands/randomkey
+*/RandomKey returns a random key from the currently selected database.
+
+http://redis.io/commands/randomkey
 */
 func (c *Client) RandomKey() (string, error) {
 	var ret string
@@ -1582,6 +1892,11 @@ func (c *Client) RandomKey() (string, error) {
 
 /*
 Renames key to newkey. It returns an error when the source and destination names
+are the same, or when key does not exist. If newkey already exists it is
+overwritten.
+
+http://redis.io/commands/rename
+*/Renames key to newkey. It returns an error when the source and destination names
 are the same, or when key does not exist. If newkey already exists it is
 overwritten.
 
@@ -1605,6 +1920,10 @@ Renames key to newkey if newkey does not yet exist. It returns an error under
 the same conditions as RENAME.
 
 http://redis.io/commands/renamenx
+*/Renames key to newkey if newkey does not yet exist. It returns an error under
+the same conditions as RENAME.
+
+http://redis.io/commands/renamenx
 */
 func (c *Client) RenameNX(key string, newkey string) (bool, error) {
 	var ret bool
@@ -1621,6 +1940,10 @@ func (c *Client) RenameNX(key string, newkey string) (bool, error) {
 
 /*
 Create a key associated with a value that is obtained by deserializing the
+provided serialized value (obtained via DUMP).
+
+http://redis.io/commands/restore
+*/Create a key associated with a value that is obtained by deserializing the
 provided serialized value (obtained via DUMP).
 
 http://redis.io/commands/restore
@@ -1643,6 +1966,9 @@ func (c *Client) Restore(key string, ttl int64, serializedValue string) (string,
 Removes and returns the last element of the list stored at key.
 
 http://redis.io/commands/restore
+*/RPop removes and returns the last element of the list stored at key.
+
+http://redis.io/commands/restore
 */
 func (c *Client) RPop(key string) (string, error) {
 	var ret string
@@ -1658,6 +1984,11 @@ func (c *Client) RPop(key string) (string, error) {
 
 /*
 Atomically returns and removes the last element (tail) of the list stored at
+source, and pushes the element at the first element (head) of the list stored
+at destination.
+
+http://redis.io/commands/rpoplpush
+*/Atomically returns and removes the last element (tail) of the list stored at
 source, and pushes the element at the first element (head) of the list stored
 at destination.
 
@@ -1678,6 +2009,11 @@ func (c *Client) RPopLPush(source string, destination string) (string, error) {
 
 /*
 Insert all the specified values at the tail of the list stored at key. If key
+does not exist, it is created as empty list before performing the push
+operation. When key holds a value that is not a list, an error is returned.
+
+http://redis.io/commands/rpush
+*/Insert all the specified values at the tail of the list stored at key. If key
 does not exist, it is created as empty list before performing the push
 operation. When key holds a value that is not a list, an error is returned.
 
@@ -1705,6 +2041,11 @@ and holds a list. In contrary to RPUSH, no operation will be performed when key
 does not yet exist.
 
 http://redis.io/commands/rpushx
+*/Inserts value at the tail of the list stored at key, only if key already exists
+and holds a list. In contrary to RPUSH, no operation will be performed when key
+does not yet exist.
+
+http://redis.io/commands/rpushx
 */
 func (c *Client) RPushX(key string, value interface{}) (int64, error) {
 	var ret int64
@@ -1721,6 +2062,11 @@ func (c *Client) RPushX(key string, value interface{}) (int64, error) {
 
 /*
 Add the specified members to the set stored at key. Specified members that are
+already a member of this set are ignored. If key does not exist, a new set is
+created before adding the specified members.
+
+http://redis.io/commands/sadd
+*/SAdd adds the specified members to the set stored at key. Specified members that are
 already a member of this set are ignored. If key does not exist, a new set is
 created before adding the specified members.
 
@@ -1748,6 +2094,11 @@ in time snapshot of all the data inside the Redis instance, in the form of an
 RDB file.
 
 http://redis.io/commands/save
+*/The SAVE commands performs a synchronous save of the dataset producing a point
+in time snapshot of all the data inside the Redis instance, in the form of an
+RDB file.
+
+http://redis.io/commands/save
 */
 func (c *Client) Save() (string, error) {
 	var ret string
@@ -1762,6 +2113,9 @@ func (c *Client) Save() (string, error) {
 
 /*
 Returns the set cardinality (number of elements) of the set stored at key.
+
+http://redis.io/commands/scard
+*/SCard returns the set cardinality (number of elements) of the set stored at key.
 
 http://redis.io/commands/scard
 */
@@ -1779,6 +2133,9 @@ func (c *Client) SCard(key string) (int64, error) {
 
 /*
 Returns information about the existence of the scripts in the script cache.
+
+http://redis.io/commands/script-exists
+*/ScriptExists returns information about the existence of the scripts in the script cache.
 
 http://redis.io/commands/script-exists
 */
@@ -1802,6 +2159,9 @@ func (c *Client) ScriptExists(script ...string) ([]string, error) {
 Flush the Lua scripts cache.
 
 http://redis.io/commands/script-flush
+*/Flush the Lua scripts cache.
+
+http://redis.io/commands/script-flush
 */
 func (c *Client) ScriptFlush() (string, error) {
 	var ret string
@@ -1818,6 +2178,10 @@ func (c *Client) ScriptFlush() (string, error) {
 
 /*
 Kills the currently executing Lua script, assuming no write operation was yet
+performed by the script.
+
+http://redis.io/commands/script-kill
+*/Kills the currently executing Lua script, assuming no write operation was yet
 performed by the script.
 
 http://redis.io/commands/script-kill
@@ -1863,6 +2227,11 @@ cached on the server side using the SCRIPT LOAD command. The command is
 otherwise identical to EVAL.
 
 http://redis.io/commands/evalsha
+*/Evaluates a script cached on the server side by its SHA1 digest. Scripts are
+cached on the server side using the SCRIPT LOAD command. The command is
+otherwise identical to EVAL.
+
+http://redis.io/commands/evalsha
 */
 func (c *Client) EvalSHA(hash string, numkeys int64, arguments ...interface{}) ([]string, error) {
 	var ret []string
@@ -1888,6 +2257,12 @@ the correct SHA1 digest of the script, exactly like after the first successful
 invocation of EVAL.
 
 http://redis.io/commands/script-load
+*/Load a script into the scripts cache, without executing it. After the specified
+command is loaded into the script cache it will be callable using EVALSHA with
+the correct SHA1 digest of the script, exactly like after the first successful
+invocation of EVAL.
+
+http://redis.io/commands/script-load
 */
 func (c *Client) ScriptLoad(script string) (string, error) {
 	var ret string
@@ -1904,6 +2279,10 @@ func (c *Client) ScriptLoad(script string) (string, error) {
 
 /*
 Returns the members of the set resulting from the difference between the first
+set and all the successive sets.
+
+http://redis.io/commands/sdiff
+*/SDiff returns the members of the set resulting from the difference between the first
 set and all the successive sets.
 
 http://redis.io/commands/sdiff
@@ -1925,6 +2304,10 @@ func (c *Client) SDiff(key ...string) ([]string, error) {
 
 /*
 This command is equal to SDIFF, but instead of returning the resulting set, it
+is stored in destination.
+
+http://redis.io/commands/sdiffstore
+*/This command is equal to SDIFF, but instead of returning the resulting set, it
 is stored in destination.
 
 http://redis.io/commands/sdiffstore
@@ -1985,6 +2368,9 @@ func (c *Client) Set(key string, value interface{}) (ret string, err error) {
 Sets or clears the bit at offset in the string value stored at key.
 
 http://redis.io/commands/setbit
+*/Sets or clears the bit at offset in the string value stored at key.
+
+http://redis.io/commands/setbit
 */
 func (c *Client) SetBit(key string, offset int64, value int64) (int64, error) {
 	var ret int64
@@ -2021,6 +2407,11 @@ SET. When key already holds a value, no operation is performed. SETNX is short
 for "SET if N ot e X ists".
 
 http://redis.io/commands/setnx
+*/Set key to hold string value if key does not exist. In that case, it is equal to
+SET. When key already holds a value, no operation is performed. SETNX is short
+for "SET if N ot e X ists".
+
+http://redis.io/commands/setnx
 */
 func (c *Client) SetNX(key string, value interface{}) (bool, error) {
 	var ret bool
@@ -2037,6 +2428,13 @@ func (c *Client) SetNX(key string, value interface{}) (bool, error) {
 
 /*
 Overwrites part of the string stored at key, starting at the specified offset,
+for the entire length of value. If the offset is larger than the current length
+of the string at key, the string is padded with zero-bytes to make offset fit.
+Non-existing keys are considered as empty strings, so this command will make
+sure it holds a string large enough to be able to set value at offset.
+
+http://redis.io/commands/setrange
+*/Overwrites part of the string stored at key, starting at the specified offset,
 for the entire length of value. If the offset is larger than the current length
 of the string at key, the string is padded with zero-bytes to make offset fit.
 Non-existing keys are considered as empty strings, so this command will make
@@ -2062,6 +2460,9 @@ func (c *Client) SetRange(key string, offset int64, value interface{}) (int64, e
 Returns the members of the set resulting from the intersection of all the given sets.
 
 http://redis.io/commands/sinter
+*/SInter returns the members of the set resulting from the intersection of all the given sets.
+
+http://redis.io/commands/sinter
 */
 func (c *Client) SInter(key ...string) ([]string, error) {
 	var ret []string
@@ -2080,6 +2481,10 @@ func (c *Client) SInter(key ...string) ([]string, error) {
 
 /*
 This command is equal to SINTER, but instead of returning the resulting set, it
+is stored in destination.
+
+http://redis.io/commands/sinterstore
+*/This command is equal to SINTER, but instead of returning the resulting set, it
 is stored in destination.
 
 http://redis.io/commands/sinterstore
@@ -2104,6 +2509,9 @@ func (c *Client) SInterStore(destination string, key ...string) (int64, error) {
 Returns if member is a member of the set stored at key.
 
 http://redis.io/commands/sismember
+*/SIsMember returns if member is a member of the set stored at key.
+
+http://redis.io/commands/sismember
 */
 func (c *Client) SIsMember(key string, member interface{}) (bool, error) {
 	var ret bool
@@ -2120,6 +2528,13 @@ func (c *Client) SIsMember(key string, member interface{}) (bool, error) {
 
 /*
 The SLAVEOF command can change the replication settings of a slave on the fly.
+If a Redis server is already acting as slave, the command SLAVEOF NO ONE will
+turn off the replication, turning the Redis server into a MASTER. In the proper
+form SLAVEOF hostname port will make the server a slave of another server
+listening at the specified hostname and port.
+
+http://redis.io/commands/slaveof
+*/The SLAVEOF command can change the replication settings of a slave on the fly.
 If a Redis server is already acting as slave, the command SLAVEOF NO ONE will
 turn off the replication, turning the Redis server into a MASTER. In the proper
 form SLAVEOF hostname port will make the server a slave of another server
@@ -2144,6 +2559,9 @@ func (c *Client) SlaveOf(key string, port uint) (string, error) {
 This command is used in order to read and reset the Redis slow queries log.
 
 http://redis.io/commands/slowlog
+*/This command is used in order to read and reset the Redis slow queries log.
+
+http://redis.io/commands/slowlog
 */
 func (c *Client) SlowLog(subcommand string, argument interface{}) ([]string, error) {
 	var ret []string
@@ -2162,6 +2580,9 @@ func (c *Client) SlowLog(subcommand string, argument interface{}) ([]string, err
 Returns all the members of the set value stored at key.
 
 http://redis.io/commands/smembers
+*/SMembers returns all the members of the set value stored at key.
+
+http://redis.io/commands/smembers
 */
 func (c *Client) SMembers(key string) ([]string, error) {
 	var ret []string
@@ -2177,6 +2598,11 @@ func (c *Client) SMembers(key string) ([]string, error) {
 
 /*
 Move member from the set at source to the set at destination. This operation is
+atomic. In every given moment the element will appear to be a member of source
+or destination for other clients.
+
+http://redis.io/commands/smove
+*/Move member from the set at source to the set at destination. This operation is
 atomic. In every given moment the element will appear to be a member of source
 or destination for other clients.
 
@@ -2202,6 +2628,11 @@ By default, sorting is numeric and elements are compared by their value
 interpreted as double precision floating point number.
 
 http://redis.io/commands/sort
+*/Sort returns or stores the elements contained in the list, set or sorted set at key.
+By default, sorting is numeric and elements are compared by their value
+interpreted as double precision floating point number.
+
+http://redis.io/commands/sort
 */
 func (c *Client) Sort(key string, arguments ...string) ([]string, error) {
 	var ret []string
@@ -2223,6 +2654,9 @@ func (c *Client) Sort(key string, arguments ...string) ([]string, error) {
 Removes and returns a random element from the set value stored at key.
 
 http://redis.io/commands/spop
+*/SPop removes and returns a random element from the set value stored at key.
+
+http://redis.io/commands/spop
 */
 func (c *Client) SPop(key string) (string, error) {
 	var ret string
@@ -2238,6 +2672,10 @@ func (c *Client) SPop(key string) (string, error) {
 
 /*
 When called with just the key argument, return a random element from the set
+value stored at key.
+
+http://redis.io/commands/srandmember
+*/When called with just the key argument, return a random element from the set
 value stored at key.
 
 http://redis.io/commands/srandmember
@@ -2257,6 +2695,11 @@ func (c *Client) SRandMember(key string, count int64) ([]string, error) {
 
 /*
 Remove the specified members from the set stored at key. Specified members that
+are not a member of this set are ignored. If key does not exist, it is treated
+as an empty set and this command returns 0.
+
+http://redis.io/commands/srem
+*/SRem removes the specified members from the set stored at key. Specified members that
 are not a member of this set are ignored. If key does not exist, it is treated
 as an empty set and this command returns 0.
 
@@ -2283,6 +2726,10 @@ Returns the length of the string value stored at key. An error is returned when
 key holds a non-string value.
 
 http://redis.io/commands/strlen
+*/Strlen returns the length of the string value stored at key. An error is returned when
+key holds a non-string value.
+
+http://redis.io/commands/strlen
 */
 func (c *Client) Strlen(key string) (int64, error) {
 	var ret int64
@@ -2298,6 +2745,9 @@ func (c *Client) Strlen(key string) (int64, error) {
 
 /*
 Subscribes the client to the specified channels.
+
+http://redis.io/commands/subscribe
+*/Subscribes the client to the specified channels.
 
 http://redis.io/commands/subscribe
 */
@@ -2318,6 +2768,9 @@ func (c *Client) Subscribe(cn chan []string, channel ...string) error {
 Returns the members of the set resulting from the union of all the given sets.
 
 http://redis.io/commands/sunion
+*/SUnion returns the members of the set resulting from the union of all the given sets.
+
+http://redis.io/commands/sunion
 */
 func (c *Client) SUnion(key ...string) ([]string, error) {
 	var ret []string
@@ -2336,6 +2789,10 @@ func (c *Client) SUnion(key ...string) ([]string, error) {
 
 /*
 This command is equal to SUNION, but instead of returning the resulting set, it
+is stored in destination.
+
+http://redis.io/commands/sunionstore
+*/This command is equal to SUNION, but instead of returning the resulting set, it
 is stored in destination.
 
 http://redis.io/commands/sunionstore
@@ -2377,6 +2834,12 @@ Basically the interface is very similar to the one of the gettimeofday system
 call.
 
 http://redis.io/commands/time
+*/The TIME command returns the current server time as a two items lists: a Unix
+timestamp and the amount of microseconds already elapsed in the current second.
+Basically the interface is very similar to the one of the gettimeofday system
+call.
+
+http://redis.io/commands/time
 */
 func (c *Client) Time() ([]uint64, error) {
 	var ret []uint64
@@ -2391,6 +2854,11 @@ func (c *Client) Time() ([]uint64, error) {
 
 /*
 Returns the remaining time to live of a key that has a timeout. This
+introspection capability allows a Redis client to check how many seconds a given
+key will continue to be part of the dataset.
+
+http://redis.io/commands/ttl
+*/TTL returns the remaining time to live of a key that has a timeout. This
 introspection capability allows a Redis client to check how many seconds a given
 key will continue to be part of the dataset.
 
@@ -2413,6 +2881,10 @@ Returns the string representation of the type of the value stored at key. The
 different types that can be returned are: string, list, set, zset and hash.
 
 http://redis.io/commands/type
+*/Type returns the string representation of the type of the value stored at key. The
+different types that can be returned are: string, list, set, zset and hash.
+
+http://redis.io/commands/type
 */
 func (c *Client) Type(key string) (string, error) {
 	var ret string
@@ -2428,6 +2900,10 @@ func (c *Client) Type(key string) (string, error) {
 
 /*
 Unsubscribes the client from the given channels, or from all of them if none is
+given.
+
+http://redis.io/commands/unsubscribe
+*/Unsubscribes the client from the given channels, or from all of them if none is
 given.
 
 http://redis.io/commands/unsubscribe
@@ -2449,6 +2925,9 @@ func (c *Client) Unsubscribe(channel ...string) error {
 Flushes all the previously watched keys for a transaction.
 
 http://redis.io/commands/unwatch
+*/Flushes all the previously watched keys for a transaction.
+
+http://redis.io/commands/unwatch
 */
 func (c *Client) Unwatch() (string, error) {
 	var ret string
@@ -2463,6 +2942,9 @@ func (c *Client) Unwatch() (string, error) {
 
 /*
 Marks the given keys to be watched for conditional execution of a transaction.
+
+http://redis.io/commands/watch
+*/Marks the given keys to be watched for conditional execution of a transaction.
 
 http://redis.io/commands/watch
 */
@@ -2483,6 +2965,15 @@ func (c *Client) Watch(key ...string) (string, error) {
 
 /*
 Adds all the specified members with the specified scores to the sorted set
+stored at key. It is possible to specify multiple score/member pairs. If a
+specified member is already a member of the sorted set, the score is updated and
+the element reinserted at the right position to ensure the correct ordering. If
+key does not exist, a new sorted set with the specified members as sole members
+is created, like if the sorted set was empty. If the key exists but does not
+hold a sorted set, an error is returned.
+
+http://redis.io/commands/zadd
+*/ZAdd adds all the specified members with the specified scores to the sorted set
 stored at key. It is possible to specify multiple score/member pairs. If a
 specified member is already a member of the sorted set, the score is updated and
 the element reinserted at the right position to ensure the correct ordering. If
@@ -2516,6 +3007,9 @@ func (c *Client) ZAdd(key string, arguments ...interface{}) (int64, error) {
 Returns the sorted set cardinality (number of elements) of the sorted set stored at key.
 
 http://redis.io/commands/zcard
+*/ZCard returns the sorted set cardinality (number of elements) of the sorted set stored at key.
+
+http://redis.io/commands/zcard
 */
 func (c *Client) ZCard(key string) (int64, error) {
 	var ret int64
@@ -2531,6 +3025,10 @@ func (c *Client) ZCard(key string) (int64, error) {
 
 /*
 Returns the number of elements in the sorted set at key with a score between min
+and max.
+
+http://redis.io/commands/zcount
+*/ZCount returns the number of elements in the sorted set at key with a score between min
 and max.
 
 http://redis.io/commands/zcount
@@ -2556,6 +3054,12 @@ member does not exist in the sorted set, it is added with increment as its score
 the specified member as its sole member is created.
 
 http://redis.io/commands/zincrby
+*/Increments the score of member in the sorted set stored at key by increment. If
+member does not exist in the sorted set, it is added with increment as its score
+(as if its previous score was 0.0). If key does not exist, a new sorted set with
+the specified member as its sole member is created.
+
+http://redis.io/commands/zincrby
 */
 func (c *Client) ZIncrBy(key string, increment int64, member interface{}) (string, error) {
 	var ret string
@@ -2573,6 +3077,12 @@ func (c *Client) ZIncrBy(key string, increment int64, member interface{}) (strin
 
 /*
 Computes the intersection of numkeys sorted sets given by the specified keys,
+and stores the result in destination. It is mandatory to provide the number of
+input keys (numkeys) before passing the input keys and the other (optional)
+arguments.
+
+http://redis.io/commands/zinterstore
+*/Computes the intersection of numkeys sorted sets given by the specified keys,
 and stores the result in destination. It is mandatory to provide the number of
 input keys (numkeys) before passing the input keys and the other (optional)
 arguments.
@@ -2602,6 +3112,11 @@ elements are considered to be ordered from the lowest to the highest score.
 Lexicographical order is used for elements with equal score.
 
 http://redis.io/commands/zrange
+*/ZRange returns the specified range of elements in the sorted set stored at key. The
+elements are considered to be ordered from the lowest to the highest score.
+Lexicographical order is used for elements with equal score.
+
+http://redis.io/commands/zrange
 */
 func (c *Client) ZRange(key string, values ...interface{}) ([]string, error) {
 	var ret []string
@@ -2621,6 +3136,11 @@ func (c *Client) ZRange(key string, values ...interface{}) ([]string, error) {
 
 /*
 Returns all the elements in the sorted set at key with a score between min and
+max (including elements with score equal to min or max). The elements are
+considered to be ordered from low to high scores.
+
+http://redis.io/commands/zrangebyscore
+*/ZRangeByScore returns all the elements in the sorted set at key with a score between min and
 max (including elements with score equal to min or max). The elements are
 considered to be ordered from low to high scores.
 
@@ -2648,6 +3168,11 @@ ordered from low to high. The rank (or index) is 0-based, which means that the
 member with the lowest score has rank 0.
 
 http://redis.io/commands/zrank
+*/ZRank returns the rank of member in the sorted set stored at key, with the scores
+ordered from low to high. The rank (or index) is 0-based, which means that the
+member with the lowest score has rank 0.
+
+http://redis.io/commands/zrank
 */
 func (c *Client) ZRank(key string, member interface{}) (int64, error) {
 	var ret int64
@@ -2664,6 +3189,10 @@ func (c *Client) ZRank(key string, member interface{}) (int64, error) {
 
 /*
 Removes the specified members from the sorted set stored at key. Non existing
+members are ignored.
+
+http://redis.io/commands/zrem
+*/ZRem removes the specified members from the sorted set stored at key. Non existing
 members are ignored.
 
 http://redis.io/commands/zrem
@@ -2693,6 +3222,14 @@ with the highest score, -2 the element with the second highest score and so
 forth.
 
 http://redis.io/commands/zremrangebyrank
+*/ZRemRangeByRank removes all elements in the sorted set stored at key with rank between start and
+stop. Both start and stop are 0 -based indexes with 0 being the element with the
+lowest score. These indexes can be negative numbers, where they indicate offsets
+starting at the element with the highest score. For example: -1 is the element
+with the highest score, -2 the element with the second highest score and so
+forth.
+
+http://redis.io/commands/zremrangebyrank
 */
 func (c *Client) ZRemRangeByRank(key string, start interface{}, stop interface{}) (int64, error) {
 	var ret int64
@@ -2713,6 +3250,10 @@ Removes all elements in the sorted set stored at key with a score between min
 and max (inclusive).
 
 http://redis.io/commands/zremrangebyscore
+*/ZRemRangeByScore removes all elements in the sorted set stored at key with a score between min
+and max (inclusive).
+
+http://redis.io/commands/zremrangebyscore
 */
 func (c *Client) ZRemRangeByScore(key string, min interface{}, max interface{}) (int64, error) {
 	var ret int64
@@ -2730,6 +3271,11 @@ func (c *Client) ZRemRangeByScore(key string, min interface{}, max interface{}) 
 
 /*
 Returns the specified range of elements in the sorted set stored at key. The
+elements are considered to be ordered from the highest to the lowest score.
+Descending lexicographical order is used for elements with equal score.
+
+http://redis.io/commands/zrevrange
+*/ZRevRange returns the specified range of elements in the sorted set stored at key. The
 elements are considered to be ordered from the highest to the lowest score.
 Descending lexicographical order is used for elements with equal score.
 
@@ -2760,6 +3306,12 @@ default ordering of sorted sets, for this command the elements are considered to
 be ordered from high to low scores.
 
 http://redis.io/commands/zrevrangebyscore
+*/ZRevRangeByScore returns all the elements in the sorted set at key with a score between max and
+min (including elements with score equal to max or min). In contrary to the
+default ordering of sorted sets, for this command the elements are considered to
+be ordered from high to low scores.
+
+http://redis.io/commands/zrevrangebyscore
 */
 func (c *Client) ZRevRangeByScore(key string, start interface{}, stop interface{}, params ...interface{}) ([]string, error) {
 	var ret []string
@@ -2785,6 +3337,11 @@ ordered from high to low. The rank (or index) is 0-based, which means that the
 member with the highest score has rank 0.
 
 http://redis.io/commands/zrevrank
+*/ZRevRank returns the rank of member in the sorted set stored at key, with the scores
+ordered from high to low. The rank (or index) is 0-based, which means that the
+member with the highest score has rank 0.
+
+http://redis.io/commands/zrevrank
 */
 func (c *Client) ZRevRank(key string, member interface{}) (int64, error) {
 	var ret int64
@@ -2803,6 +3360,9 @@ func (c *Client) ZRevRank(key string, member interface{}) (int64, error) {
 Returns the score of member in the sorted set at key.
 
 http://redis.io/commands/zscore
+*/ZScore returns the score of member in the sorted set at key.
+
+http://redis.io/commands/zscore
 */
 func (c *Client) ZScore(key string, member interface{}) (int64, error) {
 	var ret int64
@@ -2819,6 +3379,11 @@ func (c *Client) ZScore(key string, member interface{}) (int64, error) {
 
 /*
 Computes the union of numkeys sorted sets given by the specified keys, and
+stores the result in destination. It is mandatory to provide the number of input
+keys (numkeys) before passing the input keys and the other (optional) arguments.
+
+http://redis.io/commands/zunionstore
+*/Computes the union of numkeys sorted sets given by the specified keys, and
 stores the result in destination. It is mandatory to provide the number of input
 keys (numkeys) before passing the input keys and the other (optional) arguments.
 
